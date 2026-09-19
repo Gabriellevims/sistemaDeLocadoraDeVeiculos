@@ -176,32 +176,127 @@ void cadastrarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
     {
         printf("\nVeiculo %d:", i + 1);
 
-        printf("\nCodigo do Veículo:");
+        printf("\nCodigo do Veiculo: ");
         scanf("%d", &frotaVeiculos[i].codigo);
         limparBuffer();
 
-        printf("\nModelo:");
+        printf("Modelo: ");
         fgets(frotaVeiculos[i].modelo, sizeof(frotaVeiculos[i].modelo), stdin);
-        frotaVeiculos[i].modelo[strcspn(frotaVeiculos[i].modelo, "\n")] = '\0'; //usado para remover o \n que é inserido na string após o enter
+        frotaVeiculos[i].modelo[strcspn(frotaVeiculos[i].modelo, "\n")] = '\0';
 
-        printf("\nMarca:");
+        printf("Marca: ");
         fgets(frotaVeiculos[i].marca, sizeof(frotaVeiculos[i].marca), stdin);
         frotaVeiculos[i].marca[strcspn(frotaVeiculos[i].marca, "\n")] = '\0';
 
-        printf("\nAno de Fabricação:");
+        printf("Ano de Fabricacao: ");
         scanf("%d", &frotaVeiculos[i].ano);
         limparBuffer();
 
-        printf("\nValor da Diaria:");
+        printf("Valor da Diaria: ");
         scanf("%f", &frotaVeiculos[i].valorDiaria);
         limparBuffer();
 
-        frotaVeiculos[i].situacao = 0; //por padrão os veículos são cadastrados com situação 0 = não alocado
+        frotaVeiculos[i].situacao = 0; // por padrão os veículos são cadastrados com situação 0 = não alocado
     }
 }
 
 void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 {
+    int opcaoConsultarVeiculos;
+    int codigoVeiculoConsulta;
+    char modeloVeiculoConsulta[50];
+    int achado = 0; // variavel que representa se algum carro foi achado ou não na consulta
+
+    printf("\nConsultar Veiculos\n");
+    printf("1 - Consultar por codigo\n");
+    printf("2 - Consultar por modelo\n");
+    printf("Escolha uma opcao: ");
+    scanf("%d", &opcaoConsultarVeiculos);
+    limparBuffer();
+
+    switch (opcaoConsultarVeiculos)
+    {
+    case 1:
+        printf("\nCodigo do Veículo:");
+        scanf("%d", &codigoVeiculoConsulta);
+        limparBuffer();
+
+        for (int i = 0; i < quantidadeVeiculos; i++)
+        {
+            if (frotaVeiculos[i].codigo == codigoVeiculoConsulta)
+            {
+
+                printf("Codigo: %d\n", frotaVeiculos[i].codigo);
+                printf("Modelo: %s\n", frotaVeiculos[i].modelo);
+                printf("Marca: %s\n", frotaVeiculos[i].marca);
+                printf("Ano: %d\n", frotaVeiculos[i].ano);
+                printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
+                if (frotaVeiculos[i].situacao == 0)
+                {
+                    printf("Situação: Não Alocado\n");
+                }
+                else if (frotaVeiculos[i].situacao == 1)
+                {
+                    printf("Situação: Alocado\n");
+                }
+
+                achado = 1;
+            }
+        }
+
+        if (achado == 0)
+        {
+            printf("Nenhum Veículo Achado\n");
+        }
+
+        printf("Aperte enter para fechar: ");
+        scanf("%*c");
+        break;
+
+    case 2:
+        printf("\nModelo:");
+        fgets(modeloVeiculoConsulta, sizeof(modeloVeiculoConsulta), stdin);
+        modeloVeiculoConsulta[strcspn(modeloVeiculoConsulta, "\n")] = '\0';
+
+        printf("\n");
+
+        for (int i = 0; i < quantidadeVeiculos; i++)
+        {
+            if ((strcmp(modeloVeiculoConsulta, frotaVeiculos[i].modelo)) == 0)
+            {
+
+                printf("Codigo: %d\n", frotaVeiculos[i].codigo);
+                printf("Modelo: %s\n", frotaVeiculos[i].modelo);
+                printf("Marca: %s\n", frotaVeiculos[i].marca);
+                printf("Ano: %d\n", frotaVeiculos[i].ano);
+                printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
+                if (frotaVeiculos[i].situacao == 0)
+                {
+                    printf("Situação: Não Alocado\n");
+                }
+                else if (frotaVeiculos[i].situacao == 1)
+                {
+                    printf("Situação: Alocado\n");
+                }
+
+                printf("\n");
+
+                achado = 1;
+            }
+        }
+
+        if (achado == 0)
+        {
+            printf("Nenhum Veículo Achado\n");
+        }
+
+        printf("Aperte enter para fechar: ");
+        scanf("%*c");
+        break;
+
+    default:
+        break;
+    }
 }
 
 void cadastrarCliente(pCliente listaClientes, int quantidadeClientes)
