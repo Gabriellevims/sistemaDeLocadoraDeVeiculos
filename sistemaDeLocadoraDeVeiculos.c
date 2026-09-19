@@ -2,25 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-void limparBuffer() {
+void limparBuffer()
+{
     int c;
-    while ((c = getchar()) != '\n' && c != EOF); 
-
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
-// usem essa função para limparBuffer, pesquise quando usar ele ou 
+// usem essa função para limparBuffer, pesquise quando usar ele ou
 // fgets(livros[i].nome, sizeof(livros[i].nome), stdin); livros[i].nome[strcspn(livros[i].nome, "\n")] = '\0'; para limpar de string
 
-struct Veiculo {
+struct Veiculo
+{
     int codigo;
     char modelo[40];
     char marca[40];
     int ano;
-    float valorDiaria; 
-    int situacao;      
+    float valorDiaria;
+    int situacao;
 };
 
-struct Cliente {
+struct Cliente
+{
     int codigo;
     char nome[50];
     char telefone[15];
@@ -38,19 +41,20 @@ void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos);
 void cadastrarCliente(pCliente listaClientes, int quantidadeClientes);
 void listarVeiculos(pVeiculo frotaVeiculos, int quantidadeVeiculos);
 void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente listaClientes, int quantidadeClientes);
-float calcularLocacao(float valorDiaria, int quantidadeDias); 
+float calcularLocacao(float valorDiaria, int quantidadeDias);
 void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos);
 
-
-int main() {
+int main()
+{
     pVeiculo frotaVeiculos = NULL;
     pCliente listaClientes = NULL;
-    
+
     int quantidadeVeiculos = 0;
     int quantidadeClientes = 0;
     int opcaoMenu = -1;
 
-    do {
+    do
+    {
         printf("\n--- MENU DO SISTEMA DE LOCADORA ---\n");
         printf("1 - Cadastrar Veiculo\n");
         printf("2 - Consultar Veiculo\n");
@@ -64,63 +68,66 @@ int main() {
         scanf("%d", &opcaoMenu);
         limparBuffer(); // Limpando o buffer
 
-        switch (opcaoMenu) {
-            case 1:
-                if (frotaVeiculos != NULL) {
-                    printf("\nOs dados antigos dos veiculos serão PERDIDOS ao realizar uma nova inserção de dados!\n");
-                    free(frotaVeiculos); 
-                }
-                printf("Quantos veiculos deseja cadastrar? ");
-                scanf("%d", &quantidadeVeiculos);
-                limparBuffer(); // Limpando o buffer 
-                
-                frotaVeiculos = alocarVeiculos(quantidadeVeiculos);
-                printf("Criado com sucesso no armazenamento para %d veiculo(s).\n", quantidadeVeiculos); // podem remover isso aqui, é mais visual para a gente saber que seu certo 
-                
-                // cadastrarVeiculo(frotaVeiculos, quantidadeVeiculos);
-                break;
+        switch (opcaoMenu)
+        {
+        case 1:
+            if (frotaVeiculos != NULL)
+            {
+                printf("\nOs dados antigos dos veiculos serão PERDIDOS ao realizar uma nova inserção de dados!\n");
+                free(frotaVeiculos);
+            }
+            printf("Quantos veiculos deseja cadastrar? ");
+            scanf("%d", &quantidadeVeiculos);
+            limparBuffer(); // Limpando o buffer
 
-            case 2:
-                // consultarVeiculo(frotaVeiculos, quantidadeVeiculos);
-                break;
+            frotaVeiculos = alocarVeiculos(quantidadeVeiculos);
 
-            case 3:
-                if (listaClientes != NULL) {
-                    printf("\nOs dados antigos dos clientes serao PERDIDOS ao realizar uma nova inserção de dados!\n");
-                    free(listaClientes);
-                }
-                printf("Quantos clientes deseja cadastrar? ");
-                scanf("%d", &quantidadeClientes);
-                limparBuffer(); // Limpando o buffer
-                
-                listaClientes = alocarClientes(quantidadeClientes);
-                printf("Criado com sucesso no armazenamento para %d cliente(s).\n", quantidadeClientes); // podem remover isso aqui, é mais visual para a gente saber que seu certo 
-                
-                // cadastrarCliente(listaClientes, quantidadeClientes);
-                break;
+            cadastrarVeiculo(frotaVeiculos, quantidadeVeiculos);
 
-            case 4:
-                // listarVeiculos(frotaVeiculos, quantidadeVeiculos);
-                break;
+            break;
 
-            case 5:
-                // realizarLocacao(frotaVeiculos, quantidadeVeiculos, listaClientes, quantidadeClientes);
-                break;
-                
-            case 6:
-                // case para teste de calcularLocacao
-                break;
+        case 2:
+            consultarVeiculo(frotaVeiculos, quantidadeVeiculos);
+            break;
 
-            case 7:
-                // devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
-                break;
+        case 3:
+            if (listaClientes != NULL)
+            {
+                printf("\nOs dados antigos dos clientes serao PERDIDOS ao realizar uma nova inserção de dados!\n");
+                free(listaClientes);
+            }
+            printf("Quantos clientes deseja cadastrar? ");
+            scanf("%d", &quantidadeClientes);
+            limparBuffer(); // Limpando o buffer
 
-            case 0:
-                printf("\nSaindo do sistema e limpando o armazenamento\n");
-                break;
+            listaClientes = alocarClientes(quantidadeClientes);
+            printf("Criado com sucesso no armazenamento para %d cliente(s).\n", quantidadeClientes); // podem remover isso aqui, é mais visual para a gente saber que seu certo
 
-            default:
-                printf("\nOpcao invalida! Tente novamente.\n");
+            // cadastrarCliente(listaClientes, quantidadeClientes);
+            break;
+
+        case 4:
+            // listarVeiculos(frotaVeiculos, quantidadeVeiculos);
+            break;
+
+        case 5:
+            // realizarLocacao(frotaVeiculos, quantidadeVeiculos, listaClientes, quantidadeClientes);
+            break;
+
+        case 6:
+            // case para teste de calcularLocacao
+            break;
+
+        case 7:
+            // devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
+            break;
+
+        case 0:
+            printf("\nSaindo do sistema e limpando o armazenamento\n");
+            break;
+
+        default:
+            printf("\nOpcao invalida! Tente novamente.\n");
         }
     } while (opcaoMenu != 0);
 
@@ -129,59 +136,93 @@ int main() {
     return 0;
 }
 
-pVeiculo alocarVeiculos(int quantidadeVeiculos) {
-    pVeiculo v = (pVeiculo) malloc(quantidadeVeiculos * sizeof(struct Veiculo));
-    if (v == NULL) {
+pVeiculo alocarVeiculos(int quantidadeVeiculos)
+{
+    pVeiculo v = (pVeiculo)malloc(quantidadeVeiculos * sizeof(struct Veiculo));
+    if (v == NULL)
+    {
         printf("\nFalha ao alocar memoria para veiculos!\n");
         exit(1);
     }
     return v;
 }
 
-pCliente alocarClientes(int quantidadeClientes) {
-    pCliente c = (pCliente) malloc(quantidadeClientes * sizeof(struct Cliente));
-    if (c == NULL) {
+pCliente alocarClientes(int quantidadeClientes)
+{
+    pCliente c = (pCliente)malloc(quantidadeClientes * sizeof(struct Cliente));
+    if (c == NULL)
+    {
         printf("\nFalha ao alocar memoria para clientes!\n");
         exit(1);
     }
     return c;
 }
 
-void desalocarMemoria(pCliente listaClientes, pVeiculo frotaVeiculos) {
-    if (listaClientes != NULL) {
+void desalocarMemoria(pCliente listaClientes, pVeiculo frotaVeiculos)
+{
+    if (listaClientes != NULL)
+    {
         free(listaClientes);
     }
-    if (frotaVeiculos != NULL) {
+    if (frotaVeiculos != NULL)
+    {
         free(frotaVeiculos);
     }
 }
 
+void cadastrarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
+{
+    for (int i = 0; i < quantidadeVeiculos; i++)
+    {
+        printf("\nVeiculo %d:", i + 1);
 
-void cadastrarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos) {
-    
+        printf("\nCodigo do Veículo:");
+        scanf("%d", &frotaVeiculos[i].codigo);
+        limparBuffer();
+
+        printf("\nModelo:");
+        fgets(frotaVeiculos[i].modelo, sizeof(frotaVeiculos[i].modelo), stdin);
+        frotaVeiculos[i].modelo[strcspn(frotaVeiculos[i].modelo, "\n")] = '\0'; //usado para remover o \n que é inserido na string após o enter
+
+        printf("\nMarca:");
+        fgets(frotaVeiculos[i].marca, sizeof(frotaVeiculos[i].marca), stdin);
+        frotaVeiculos[i].marca[strcspn(frotaVeiculos[i].marca, "\n")] = '\0';
+
+        printf("\nAno de Fabricação:");
+        scanf("%d", &frotaVeiculos[i].ano);
+        limparBuffer();
+
+        printf("\nValor da Diaria:");
+        scanf("%f", &frotaVeiculos[i].valorDiaria);
+        limparBuffer();
+
+        frotaVeiculos[i].situacao = 0; //por padrão os veículos são cadastrados com situação 0 = não alocado
+    }
 }
 
-void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos) {
-    
+void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
+{
 }
 
-void cadastrarCliente(pCliente listaClientes, int quantidadeClientes) {
-    
+void cadastrarCliente(pCliente listaClientes, int quantidadeClientes)
+{
 }
 
-void listarVeiculos(pVeiculo frotaVeiculos, int quantidadeVeiculos) {
-    
+void listarVeiculos(pVeiculo frotaVeiculos, int quantidadeVeiculos)
+{
 }
 
-void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente listaClientes, int quantidadeClientes) {
-    //chamar calcularLocacao() aqui 
+void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente listaClientes, int quantidadeClientes)
+{
+    // chamar calcularLocacao() aqui
 }
 
-float calcularLocacao(float valorDiaria, int quantidadeDias) {
-    
-    return 0.0; 
+float calcularLocacao(float valorDiaria, int quantidadeDias)
+{
+
+    return 0.0;
 }
 
-void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos) {
-    
+void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
+{
 }
