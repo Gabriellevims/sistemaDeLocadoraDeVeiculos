@@ -103,11 +103,11 @@ int main()
             listaClientes = alocarClientes(quantidadeClientes);
             printf("Criado com sucesso no armazenamento para %d cliente(s).\n", quantidadeClientes); // podem remover isso aqui, é mais visual para a gente saber que seu certo
 
-            // cadastrarCliente(listaClientes, quantidadeClientes);
+            cadastrarCliente(listaClientes, quantidadeClientes);
             break;
 
         case 4:
-            // listarVeiculos(frotaVeiculos, quantidadeVeiculos);
+            listarVeiculos(frotaVeiculos, quantidadeVeiculos);
             break;
 
         case 5:
@@ -301,10 +301,56 @@ void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 
 void cadastrarCliente(pCliente listaClientes, int quantidadeClientes)
 {
+    for (int i = 0; i < quantidadeClientes; i++)
+    {
+        printf("\nCliente %d:\n", i + 1);
+        
+        printf("Código do Cliente: ");
+        scanf("%d", &listaClientes[i].codigo);
+        limparBuffer();
+        
+        printf("Nome Completo: ");
+        fgets(listaClientes[i].nome, sizeof(listaClientes[i].nome), stdin);
+        listaClientes[i].nome[strcspn(listaClientes[i].nome, "\n")] = '\0';
+        
+        printf("Número de Telefone: ");
+        fgets(listaClientes[i].telefone, sizeof(listaClientes[i].telefone), stdin);
+        listaClientes[i].telefone[strcspn(listaClientes[i].telefone, "\n")] = '\0';
+    }
+    printf("Cliente(s) Cadastrado(s)!\n");
 }
 
 void listarVeiculos(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 {
+    if (quantidadeVeiculos == 0 || frotaVeiculos == NULL)
+    {
+        printf("\nNenhum veículo cadastrado no sistema no momento.\n");
+        return;
+    }
+    
+    printf("\nLista de Veículos da Frota");
+    
+    for (int i = 0; i < quantidadeVeiculos; i++)
+    {
+        printf("\nVeiculo %d:\n", i + 1);
+        printf("Codigo: %d\n", frotaVeiculos[i].codigo);
+        printf("Modelo: %s\n", frotaVeiculos[i].modelo);
+        printf("Marca: %s\n", frotaVeiculos[i].marca);
+        printf("Ano: %d\n", frotaVeiculos[i].ano);
+        printf("Valor da Diária: R$ %.2f\n", frotaVeiculos[i].valorDiaria);
+        
+        if (frotaVeiculos[i].situacao == 0)
+        {
+            printf("Situação: Disponível\n");
+        }
+        else if (frotaVeiculos[i].situacao)
+        {
+            printf("Situação: Alugado\n");
+        }
+    }
+    
+    printf("Aperte enter para fechar: ");
+    getchar();
 }
 
 void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente listaClientes, int quantidadeClientes)
