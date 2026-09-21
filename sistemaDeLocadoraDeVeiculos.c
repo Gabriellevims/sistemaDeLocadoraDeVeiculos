@@ -366,4 +366,52 @@ float calcularLocacao(float valorDiaria, int quantidadeDias)
 
 void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 {
+    int codigoVeiculoConsultar, confirmacao = 0;
+    int encontrado = 0; // Variável de controle para saber se achamos o carro
+    if (frotaVeiculos != NULL && quantidadeVeiculos > 0)
+    {
+        printf("Digite o codigo do veiculo para devolver: ");
+        scanf("%d", &codigoVeiculoConsultar);
+        for (int i = 0; i < quantidadeVeiculos; i++)
+        {
+            if (frotaVeiculos[i].codigo == codigoVeiculoConsultar)
+            {
+                encontrado = 1;                     // Marcamos que o carro existe na lista
+                if (frotaVeiculos[i].situacao == 1) // 1 = Alugado
+                {
+                    printf("Você irá devolver o carro do codigo: %i\nmodelo: %s\nmarca: %s\nAno: %i\nvalor da diaria: %.2f\n",
+                           codigoVeiculoConsultar,
+                           frotaVeiculos[i].modelo, // Usando 'i' corretamente
+                           frotaVeiculos[i].marca,
+                           frotaVeiculos[i].ano,
+                           frotaVeiculos[i].valorDiaria);
+
+                    printf("Você tem certeza da ação a ser feita?\nDigite 1 para SIM\nDigite 2 para NÃO\nOpcao: ");
+                    scanf("%i", &confirmacao);
+                    if (confirmacao == 1) // Agora checamos se ele realmente quer devolver
+                    {
+                        frotaVeiculos[i].situacao = 0; // 0 = Disponível
+                        printf("O veiculo do codigo: %i, foi devolvido com sucesso!\n", codigoVeiculoConsultar);
+                    }
+                    else
+                    {
+                        printf("Devolucao cancelada.\n");
+                    }
+                }
+                else
+                {
+                    printf("O veiculo do codigo: %i, está com situacão de não alugado.\n", codigoVeiculoConsultar);
+                }
+                break; // Achou o carro, não precisa continuar rodando o 'for'
+            }
+        }
+        if (encontrado == 0)
+        {
+            printf("Nenhum veiculo com o codigo %i encontrado, tente novamente.\n", codigoVeiculoConsultar);
+        }
+    }
+    else
+    {
+        printf("Não há veiculos cadastrados, utilize a opção 1 para o cadastro de veiculo.\n");
+    }
 }
