@@ -1,107 +1,39 @@
-﻿
-# Sistema de Locadora de Veículos 🚗
+# Sistema de Gestão de Locadora de Veículos
 
-Sistema desenvolvido em linguagem C para simular o gerenciamento básico de uma locadora de veículos. O projeto engloba o cadastro de frota, registro de clientes, operações de locação, cálculo de diárias e devolução, utilizando alocação dinâmica de memória e manipulação de ponteiros.
+**Integrantes:**
+* Antônio Marcos Daniel Macêdo de Melo
+* Antonio Marcos Matos de Almeida
+* Gabriel Henrique Carvalho de Lima
+* Gabriel Levi Mendes dos Santos
+* Janeilson Paulino de Araujo
 
-## 👥 Equipe e Divisão de Tarefas
+## 📄 Descrição do Sistema
 
-**1. Membro 1 (Levi) - Estruturas Base e Menu Principal**
+Este projeto é um sistema desenvolvido em linguagem C para o gerenciamento de uma locadora de veículos. Operando inteiramente via terminal, o programa utiliza conceitos fundamentais e avançados de programação estruturada, como alocação dinâmica de memória (`malloc`, `free`), manipulação de ponteiros e estruturas (`structs`). Ele permite gerenciar temporariamente uma base de clientes e uma frota de veículos, otimizando o uso de memória ao alocar exatamente o espaço necessário no momento em que os cadastros são solicitados.
 
-* Definição das `struct Veiculo` e `struct Cliente`.
-* Assinatura das funções (protótipos).
-* Função `main()` com inicialização de ponteiros e variáveis contadoras.
-* Estrutura do menu interativo (`do-while` e `switch-case`).
-* Alocação e desalocação dinâmica de memória para a frota e os clientes.
+## ⚙️ Principais Funcionalidades
 
-**2. Membro 2 - Módulo de Veículos**
+O sistema conta com um menu interativo que disponibiliza as seguintes operações baseadas no código:
 
-* `cadastrarVeiculo()`: Adiciona veículos ao sistema recebendo os dados (código, modelo, marca, ano, valor, situação).
-* `consultarVeiculo()`: Busca veículos por código ou modelo (utilizando um `switch-case` interno para o filtro).
+* **Cadastrar Veículo:** Insere novos veículos na frota exigindo as informações de código, modelo, marca, ano de fabricação e valor da diária. *(Por padrão, todo novo veículo recebe a situação `0` - "Não Alocado / Disponível")*.
+* **Consultar Veículo:** Permite a busca detalhada de um veículo específico na frota com duas opções de filtro: utilizando o código identificador numérico ou pesquisando pelo nome do modelo.
+* **Cadastrar Cliente:** Registra novos clientes armazenando código, nome completo e número de telefone na base de dados temporária.
+* **Listar Veículos:** Percorre a frota e exibe a relação de todos os veículos cadastrados e o status atual de cada um (Disponível ou Alugado).
+* **Realizar Locação & Calcular Locação:** Estruturas-base (`realizarLocacao` e `calcularLocacao`) já criadas e referenciadas no menu, preparadas para receber a lógica de cálculo baseada nos dias de locação e valor da diária.
+* **Devolver Veículo:** Busca um veículo pelo código, exibe os detalhes em tela para o usuário confirmar a ação e, caso confirmado, altera o status do veículo de volta para "Disponível".
+* **Gerenciamento de Memória:** O sistema possui a função `desalocarMemoria`, que libera automaticamente toda a memória alocada dinamicamente das listas de clientes e veículos quando o usuário finaliza a execução escolhendo a opção de sair (`0`).
 
-**3. Membro 3 - Módulo de Clientes e Listagem**
+## 🚀 Instruções para compilar e executar
 
-* `cadastrarCliente()`: Registra novos usuários recebendo código, nome e telefone.
-* `listarVeiculos()`: Percorre a frota cadastrada e exibe uma lista limpa na tela, mostrando os dados e se o veículo está "Disponível" ou "Alugado".
+### Pré-requisitos
 
-**4. Membro 4 - Módulo de Locação e Cálculo**
+Para rodar este sistema, você precisará de um compilador C (como o GCC) instalado na sua máquina.
 
-* `realizarLocacao()`: Vincula um cliente a um veículo. Valida a existência do veículo e se ele está livre (situação `0`). Se sim, altera para alugado (situação `1`).
-* `calcularLocacao()`: Multiplica a quantidade de dias pelo valor da diária (acessando os dados da struct) e retorna/imprime o valor total.
+### Passos para compilação
 
-**5. Membro 5 - Devolução e Integração Final (O "Master")**
-
-* `devolverVeiculo()`: Solicita o código do veículo, verifica a locação atual e altera o status de volta para disponível (`0`).
-* **Integração:** Une os códigos de todos os membros em um único arquivo `.c` (garantindo que todas as funções recebam os vetores e contadores por referência/ponteiros).
-* Resolve erros de compilação, executa os testes no terminal e sobe a versão final para este repositório no GitHub.
-
----
-
-## 📐 Padrões de Projeto (Coding Standards)
-
-Para manter o código limpo, legível e evitar conflitos na hora da integração, todos os membros devem seguir **estritamente** as regras abaixo:
-
-### 1. Nomes de Variáveis (`camelCase`)
-
-Começam sempre com letra minúscula. Se a variável tiver mais de uma palavra, a primeira letra das palavras seguintes deve ser maiúscula, sem espaços ou subtraços. Nomes devem explicar o que a variável guarda.
-
-* ✅ **Certo:** `codigo`, `valorDiaria`, `quantidadeDias`, `opcaoMenu`
-* ❌ **Errado:** `Codigo`, `valor_diaria`, `qDias`, `x`
-
-### 2. Nomes de Structs (`PascalCase`)
-
-Sempre começam com letra maiúscula. Se tiver mais de uma palavra, cada palavra nova começa com maiúscula. O nome da struct deve representar a entidade no **singular**.
-
-* ✅ **Certo:** `struct Veiculo`, `struct Cliente`
-* ❌ **Errado:** `struct veiculos`, `struct CLIENTE`, `struct cliente_locadora`
-
-### 3. Nomes de Funções (Verbo + Substantivo em `camelCase`)
-
-As funções executam ações, então o nome sempre deve começar com um verbo no infinitivo (letra minúscula) seguido do objeto que ela manipula.
-
-* ✅ **Certo:** `cadastrarVeiculo()`, `listarVeiculos()`, `realizarLocacao()`
-* ❌ **Errado:** `veiculoCadastro()`, `Lista()`, `faz_calculo()`
-
-### 4. Padrões de Informações e Textos na Tela
-
-* **Mensagens para o usuário:** Sempre claras, padronizadas e sem erros de português. Utilizem o `\n` no final das frases de forma consistente para o terminal não ficar bagunçado.
-* **Situação do Veículo:** Como C não possui tipo booleano nativo sem importar bibliotecas extras, utilizaremos o seguinte padrão numérico (inteiro):
-* `0` = Disponível
-* `1` = Alugado
-
-
-
----
-
-## 🛠️ Dicas Úteis de Implementação
-
-### Limpeza de Buffer do Teclado e Leitura de Strings
-
-Ao usar `scanf` para ler números, um `\n` (quebra de linha) sobra na memória e pode fazer as funções `fgets` dos colegas pularem a leitura de nomes ou modelos.
-
-Para limpar o buffer após um `scanf`, utilizem:
-
-```c
-       limparBuffer(); 
-
-```
-
-Para ler strings com espaços (como nomes completos ou modelos de carros) e remover o `\n` que o `fgets` captura no final da string, sigam este padrão:
-
-```c
-fgets(clientes[i].nome, sizeof(clientes[i].nome), stdin);
-clientes[i].nome[strcspn(clientes[i].nome, "\n")] = '\0';
-
-```
-
-### Compilação do Projeto
-
-Para o membro 5 (ou qualquer um que for testar o código todo), recomenda-se a compilação utilizando o GCC no terminal (seja via MSYS2 no Windows PowerShell ou no terminal nativo do Linux):
+1. Salve o código-fonte em um arquivo chamado `main.c`.
+2. Abra o terminal na pasta onde o arquivo foi salvo.
+3. Compile o código utilizando o comando:
 
 ```bash
-# Compilando o arquivo
 gcc main.c -o locadora
-
-# Executando o sistema
-./locadora
-
-```
