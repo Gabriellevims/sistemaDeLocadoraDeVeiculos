@@ -131,7 +131,7 @@ int main()
             break;
 
         case 7:
-            // devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
+            devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
             break;
 
         case 0:
@@ -400,6 +400,7 @@ void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 
                     printf("Você tem certeza da ação a ser feita?\nDigite 1 para SIM\nDigite 2 para NÃO\nOpcao: ");
                     scanf("%i", &confirmacao);
+                    limparBuffer();
                     if (confirmacao == 1) // Agora checamos se ele realmente quer devolver
                     {
                         frotaVeiculos[i].situacao = 0; // 0 = Disponível
