@@ -111,15 +111,27 @@ int main()
             break;
 
         case 5:
-            // realizarLocacao(frotaVeiculos, quantidadeVeiculos, listaClientes, quantidadeClientes);
+            realizarLocacao(frotaVeiculos, quantidadeVeiculos, listaClientes, quantidadeClientes);
             break;
 
         case 6:
-            // case para teste de calcularLocacao
+            float valorDiariaTeste;
+                int diasTeste;
+                printf("\n--- Teste de Calculo de Locacao ---\n");
+                printf("Informe o valor da diaria: R$ ");
+                scanf("%f", &valorDiariaTeste);
+                limparBuffer();
+
+                printf("Informe a quantidade de dias: ");
+                scanf("%d", &diasTeste);
+                limparBuffer();
+
+                float total = calcularLocacao(valorDiariaTeste, diasTeste);
+                printf("Valor Total: R$ %.2f\n", total);
             break;
 
         case 7:
-            // devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
+            devolverVeiculo(frotaVeiculos, quantidadeVeiculos);
             break;
 
         case 0:
@@ -355,13 +367,84 @@ void listarVeiculos(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 
 void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente listaClientes, int quantidadeClientes)
 {
-    // chamar calcularLocacao() aqui
+    if (frotaVeiculos == NULL || quantidadeVeiculos == 0)
+    {
+        printf("\nNao ha veiculos cadastrados no sistema!\n");
+        return;
+    }
+    if (listaClientes == NULL || quantidadeClientes == 0)
+    {
+        printf("\nNao ha clientes cadastrados no sistema!\n");
+        return;
+    }
+
+    int codigoCliente, codigoVeiculo, dias;
+    int idxCliente = -1, idxVeiculo = -1;
+
+    printf("\n--- Realizar Locacao ---\n");
+    printf("Digite o codigo do cliente: ");
+    scanf("%d", &codigoCliente);
+    limparBuffer();
+
+    for (int i = 0; i < quantidadeClientes; i++)
+    {
+        if (listaClientes[i].codigo == codigoCliente)
+        {
+            idxCliente = i;
+            break;
+        }
+    }
+
+    if (idxCliente == -1)
+    {
+        printf("Cliente com codigo %d nao foi encontrado!\n", codigoCliente);
+        return;
+    }
+
+    printf("Digite o codigo do veiculo: ");
+    scanf("%d", &codigoVeiculo);
+    limparBuffer();
+
+    for (int i = 0; i < quantidadeVeiculos; i++)
+    {
+        if (frotaVeiculos[i].codigo == codigoVeiculo)
+        {
+            idxVeiculo = i;
+            break;
+        }
+    }
+
+    if (idxVeiculo == -1)
+    {
+        printf("Veiculo com codigo %d nao foi encontrado!\n", codigoVeiculo);
+        return;
+    }
+
+    if (frotaVeiculos[idxVeiculo].situacao == 1)
+    {
+        printf("O veiculo modelo '%s' ja esta ALUGADO no momento.\n", frotaVeiculos[idxVeiculo].modelo);
+        return;
+    }
+
+    printf("Informe a quantidade de dias da locacao: ");
+    scanf("%d", &dias);
+    limparBuffer();
+
+    float total = calcularLocacao(frotaVeiculos[idxVeiculo].valorDiaria, dias);
+
+    frotaVeiculos[idxVeiculo].situacao = 1; // Marca o veículo como Alugado
+
+    printf("\nLocacao realizada com sucesso!\n");
+    printf("Cliente: %s\n", listaClientes[idxCliente].nome);
+    printf("Veiculo: %s (%s)\n", frotaVeiculos[idxVeiculo].modelo, frotaVeiculos[idxVeiculo].marca);
+    printf("Dias: %d\n", dias);
+    printf("Valor Total: R$ %.2f\n", total);
 }
 
 float calcularLocacao(float valorDiaria, int quantidadeDias)
 {
 
-    return 0.0;
+    return valorDiaria * quantidadeDias;
 }
 
 void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
@@ -388,6 +471,7 @@ void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 
                     printf("Você tem certeza da ação a ser feita?\nDigite 1 para SIM\nDigite 2 para NÃO\nOpcao: ");
                     scanf("%i", &confirmacao);
+                    limparBuffer();
                     if (confirmacao == 1) // Agora checamos se ele realmente quer devolver
                     {
                         frotaVeiculos[i].situacao = 0; // 0 = Disponível
