@@ -115,7 +115,19 @@ int main()
             break;
 
         case 6:
-            // case para teste de calcularLocacao
+            float valorDiariaTeste;
+                int diasTeste;
+                printf("\n--- Teste de Calculo de Locacao ---\n");
+                printf("Informe o valor da diaria: R$ ");
+                scanf("%f", &valorDiariaTeste);
+                limparBuffer();
+
+                printf("Informe a quantidade de dias: ");
+                scanf("%d", &diasTeste);
+                limparBuffer();
+
+                float total = calcularLocacao(valorDiariaTeste, diasTeste);
+                printf("Valor Total: R$ %.2f\n", total);
             break;
 
         case 7:
@@ -361,7 +373,7 @@ void realizarLocacao(pVeiculo frotaVeiculos, int quantidadeVeiculos, pCliente li
 float calcularLocacao(float valorDiaria, int quantidadeDias)
 {
 
-    return 0.0;
+    return valorDiaria * quantidadeDias;
 }
 
 void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
