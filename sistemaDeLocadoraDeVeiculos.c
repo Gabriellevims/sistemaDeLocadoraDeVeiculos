@@ -73,8 +73,19 @@ int main()
         case 1:
             if (frotaVeiculos != NULL)
             {
+                char confirmacao;
                 printf("\nOs dados antigos dos veiculos serão PERDIDOS ao realizar uma nova inserção de dados!\n");
+                printf("Tem certeza que deseja continuar? (S/N): ");
+                scanf(" %c", &confirmacao); 
+
+                if (confirmacao == 'N' || confirmacao == 'n')
+                {
+                    printf("Operação cancelada. Retornando ao menu...\n");
+                    break; 
+                }
+
                 free(frotaVeiculos);
+                frotaVeiculos = NULL; 
             }
             printf("Quantos veiculos deseja cadastrar? ");
             scanf("%d", &quantidadeVeiculos);
@@ -93,8 +104,19 @@ int main()
         case 3:
             if (listaClientes != NULL)
             {
-                printf("\nOs dados antigos dos clientes serao PERDIDOS ao realizar uma nova inserção de dados!\n");
+                char confirmacao;
+                printf("\nOs dados antigos dos clientes serão PERDIDOS ao realizar uma nova inserção de dados!\n");
+                printf("Tem certeza que deseja continuar? (S/N): ");
+                scanf(" %c", &confirmacao); 
+
+                if (confirmacao == 'N' || confirmacao == 'n')
+                {
+                    printf("Operação cancelada. Retornando ao menu...\n");
+                    break; 
+                }
+
                 free(listaClientes);
+                listaClientes = NULL; 
             }
             printf("Quantos clientes deseja cadastrar? ");
             scanf("%d", &quantidadeClientes);
@@ -218,96 +240,100 @@ void consultarVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
     int codigoVeiculoConsulta;
     char modeloVeiculoConsulta[50];
     int achado = 0; // variavel que representa se algum carro foi achado ou não na consulta
-
-    printf("\nConsultar Veiculos\n");
-    printf("1 - Consultar por codigo\n");
-    printf("2 - Consultar por modelo\n");
-    printf("Escolha uma opcao: ");
-    scanf("%d", &opcaoConsultarVeiculos);
-    limparBuffer();
-
-    switch (opcaoConsultarVeiculos)
-    {
-    case 1:
-        printf("\nCodigo do Veículo:");
-        scanf("%d", &codigoVeiculoConsulta);
+    if (frotaVeiculos != NULL && quantidadeVeiculos > 0){
+        printf("\nConsultar Veiculos\n");
+        printf("1 - Consultar por codigo\n");
+        printf("2 - Consultar por modelo\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcaoConsultarVeiculos);
         limparBuffer();
 
-        for (int i = 0; i < quantidadeVeiculos; i++)
+        switch (opcaoConsultarVeiculos)
         {
-            if (frotaVeiculos[i].codigo == codigoVeiculoConsulta)
+        case 1:
+            printf("\nCodigo do Veículo:");
+            scanf("%d", &codigoVeiculoConsulta);
+            limparBuffer();
+
+            for (int i = 0; i < quantidadeVeiculos; i++)
             {
-
-                printf("Codigo: %d\n", frotaVeiculos[i].codigo);
-                printf("Modelo: %s\n", frotaVeiculos[i].modelo);
-                printf("Marca: %s\n", frotaVeiculos[i].marca);
-                printf("Ano: %d\n", frotaVeiculos[i].ano);
-                printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
-                if (frotaVeiculos[i].situacao == 0)
+                if (frotaVeiculos[i].codigo == codigoVeiculoConsulta)
                 {
-                    printf("Situação: Não Alocado\n");
-                }
-                else if (frotaVeiculos[i].situacao == 1)
-                {
-                    printf("Situação: Alocado\n");
-                }
 
-                achado = 1;
+                    printf("Codigo: %d\n", frotaVeiculos[i].codigo);
+                    printf("Modelo: %s\n", frotaVeiculos[i].modelo);
+                    printf("Marca: %s\n", frotaVeiculos[i].marca);
+                    printf("Ano: %d\n", frotaVeiculos[i].ano);
+                    printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
+                    if (frotaVeiculos[i].situacao == 0)
+                    {
+                        printf("Situação: Não Alocado\n");
+                    }
+                    else if (frotaVeiculos[i].situacao == 1)
+                    {
+                        printf("Situação: Alocado\n");
+                    }
+
+                    achado = 1;
+                }
             }
-        }
 
-        if (achado == 0)
-        {
-            printf("Nenhum Veículo Achado\n");
-        }
-
-        printf("Aperte enter para fechar: ");
-        scanf("%*c");
-        break;
-
-    case 2:
-        printf("\nModelo:");
-        fgets(modeloVeiculoConsulta, sizeof(modeloVeiculoConsulta), stdin);
-        modeloVeiculoConsulta[strcspn(modeloVeiculoConsulta, "\n")] = '\0';
-
-        printf("\n");
-
-        for (int i = 0; i < quantidadeVeiculos; i++)
-        {
-            if ((strcmp(modeloVeiculoConsulta, frotaVeiculos[i].modelo)) == 0)
+            if (achado == 0)
             {
-
-                printf("Codigo: %d\n", frotaVeiculos[i].codigo);
-                printf("Modelo: %s\n", frotaVeiculos[i].modelo);
-                printf("Marca: %s\n", frotaVeiculos[i].marca);
-                printf("Ano: %d\n", frotaVeiculos[i].ano);
-                printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
-                if (frotaVeiculos[i].situacao == 0)
-                {
-                    printf("Situação: Não Alocado\n");
-                }
-                else if (frotaVeiculos[i].situacao == 1)
-                {
-                    printf("Situação: Alocado\n");
-                }
-
-                printf("\n");
-
-                achado = 1;
+                printf("Nenhum Veículo Achado\n");
             }
+
+            printf("Aperte enter para fechar: ");
+            scanf("%*c");
+            break;
+
+        case 2:
+            printf("\nModelo:");
+            fgets(modeloVeiculoConsulta, sizeof(modeloVeiculoConsulta), stdin);
+            modeloVeiculoConsulta[strcspn(modeloVeiculoConsulta, "\n")] = '\0';
+
+            printf("\n");
+
+            for (int i = 0; i < quantidadeVeiculos; i++)
+            {
+                if ((strcmp(modeloVeiculoConsulta, frotaVeiculos[i].modelo)) == 0)
+                {
+
+                    printf("Codigo: %d\n", frotaVeiculos[i].codigo);
+                    printf("Modelo: %s\n", frotaVeiculos[i].modelo);
+                    printf("Marca: %s\n", frotaVeiculos[i].marca);
+                    printf("Ano: %d\n", frotaVeiculos[i].ano);
+                    printf("Valor da Diaria: %.2f\n", frotaVeiculos[i].valorDiaria);
+                    if (frotaVeiculos[i].situacao == 0)
+                    {
+                        printf("Situação: Não Alocado\n");
+                    }
+                    else if (frotaVeiculos[i].situacao == 1)
+                    {
+                        printf("Situação: Alocado\n");
+                    }
+
+                    printf("\n");
+
+                    achado = 1;
+                }
+            }
+
+            if (achado == 0)
+            {
+                printf("Nenhum Veículo Achado\n");
+            }
+
+            printf("Aperte enter para fechar: ");
+            scanf("%*c");
+            break;
+
+        default:
+            break;
         }
-
-        if (achado == 0)
-        {
-            printf("Nenhum Veículo Achado\n");
-        }
-
-        printf("Aperte enter para fechar: ");
-        scanf("%*c");
-        break;
-
-    default:
-        break;
+    }else
+    {
+        printf("Não há veiculos cadastrados, utilize a opção 1 para o cadastro de veiculo.\n");
     }
 }
 
@@ -450,7 +476,7 @@ float calcularLocacao(float valorDiaria, int quantidadeDias)
 void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
 {
     int codigoVeiculoConsultar, confirmacao = 0;
-    int encontrado = 0; // Variável de controle para saber se achamos o carro
+    int encontrado = 0; 
     if (frotaVeiculos != NULL && quantidadeVeiculos > 0)
     {
         printf("Digite o codigo do veiculo para devolver: ");
@@ -459,12 +485,12 @@ void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
         {
             if (frotaVeiculos[i].codigo == codigoVeiculoConsultar)
             {
-                encontrado = 1;                     // Marcamos que o carro existe na lista
-                if (frotaVeiculos[i].situacao == 1) // 1 = Alugado
+                encontrado = 1;                    
+                if (frotaVeiculos[i].situacao == 1) 
                 {
                     printf("Você irá devolver o carro do codigo: %i\nmodelo: %s\nmarca: %s\nAno: %i\nvalor da diaria: %.2f\n",
                            codigoVeiculoConsultar,
-                           frotaVeiculos[i].modelo, // Usando 'i' corretamente
+                           frotaVeiculos[i].modelo, 
                            frotaVeiculos[i].marca,
                            frotaVeiculos[i].ano,
                            frotaVeiculos[i].valorDiaria);
@@ -472,9 +498,9 @@ void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
                     printf("Você tem certeza da ação a ser feita?\nDigite 1 para SIM\nDigite 2 para NÃO\nOpcao: ");
                     scanf("%i", &confirmacao);
                     limparBuffer();
-                    if (confirmacao == 1) // Agora checamos se ele realmente quer devolver
+                    if (confirmacao == 1) 
                     {
-                        frotaVeiculos[i].situacao = 0; // 0 = Disponível
+                        frotaVeiculos[i].situacao = 0; 
                         printf("O veiculo do codigo: %i, foi devolvido com sucesso!\n", codigoVeiculoConsultar);
                     }
                     else
@@ -486,7 +512,7 @@ void devolverVeiculo(pVeiculo frotaVeiculos, int quantidadeVeiculos)
                 {
                     printf("O veiculo do codigo: %i, está com situacão de não alugado.\n", codigoVeiculoConsultar);
                 }
-                break; // Achou o carro, não precisa continuar rodando o 'for'
+                break; 
             }
         }
         if (encontrado == 0)

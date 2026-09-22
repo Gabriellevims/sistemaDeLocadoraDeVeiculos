@@ -32,8 +32,15 @@ Para rodar este sistema, você precisará de um compilador C (como o GCC) instal
 ### Passos para compilação
 
 1. Salve o código-fonte em um arquivo chamado `main.c`.
-2. Abra o terminal na pasta onde o arquivo foi salvo.
+2. Abra o terminal (PowerShell) na pasta onde o arquivo foi salvo.
 3. Compile o código utilizando o comando:
 
 ```bash
-gcc main.c -o locadora
+gcc main.c -o locadora 
+```
+
+4. Após a compilação, execute o programa gerado inserindo o seguinte comando no terminal:
+
+```bash
+.\locadora.exe
+```
